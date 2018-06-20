@@ -1,10 +1,10 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import EmployeeSearchBar from "./EmployeeSearchBar";
+import JobSearchBar from "./JobSearchBar";
 import FilterSideBar from './FilterSideBar';
-import EmployeeResultTable from './EmployeeResultTable';
+import JobResultTable from './JobResultTable';
 
-class EmployeeSearchContent extends React.Component {
+class JobSearchContent extends React.Component {
 
     constructor(props) {
 
@@ -19,10 +19,10 @@ class EmployeeSearchContent extends React.Component {
     render() {
         return (
             <div>
-                <EmployeeSearchBar />
+                <JobSearchBar />
                 <Row>
                     <FilterSideBar />
-                    <EmployeeResultTable />
+                    <JobResultTable />
                     <FeatureSideBar />
                 </Row>
             </div>
@@ -30,5 +30,5 @@ class EmployeeSearchContent extends React.Component {
     }
 }
 
-export default EmployeeSearchContent;
+export default JobSearchContent;
 
