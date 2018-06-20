@@ -8,10 +8,16 @@ let SortByOptions = (
             <a>Relevance</a>
         </Menu.Item>
         <Menu.Item>
-            <a>Newest to Oldest</a>
+            <a>PayRate</a>
         </Menu.Item>
         <Menu.Item>
-            <a>Oldest to Newest</a>
+            <a>Title</a>
+        </Menu.Item>
+        <Menu.Item>
+            <a>Company</a>
+        </Menu.Item>
+        <Menu.Item>
+            <a>Location</a>
         </Menu.Item>
     </Menu>
 );
