@@ -1,22 +1,29 @@
 {
   "name": "react-app",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "antd": "^3.6.3",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4",
-    "yarn": "^1.7.0"
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-scripts eject"
+    "client": "cd client && npm start",
+    "server": "gulp",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DileepKumarCheelapally/react-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DileepKumarCheelapally/react-app/issues"
+  },
+  "homepage": "https://github.com/DileepKumarCheelapally/react-app#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1"
   },
   "devDependencies": {
-    "babel-plugin-import": "^1.8.0",
-    "react-app-rewired": "^1.5.2"
+    "concurrently": "^3.5.0"
   }
 }

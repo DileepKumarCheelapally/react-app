@@ -25,11 +25,11 @@ class JobResultRowCard extends React.Component {
                                 : this.props.availability === "full-time"
                                 ? "#4bd3ff"
                                 : "#ffc14a"}} count={this.props.availability} />
-                    <h3 style={{textAlign: 'right'}}>{this.props.payRate}</h3>
+                    <h3 style={{paddingLeft: "5em", textAlign: 'right'}}>{this.props.payRate}</h3>
                 </div>
-                <div>
-                    <p><a href="/">{this.props.company}</a></p>
-                    <p><a href="/">{this.props.location}</a></p>
+                <div style={{display: 'flex'}}>
+                    <p style={{marginRight: '10px'}}><a href="/">{this.props.company}</a></p>
+                    <p>{this.props.location}</p>
                 </div>
                 <div>
                     <p>Reply rate: <strong>{this.props.replyRate}</strong></p>

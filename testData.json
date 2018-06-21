@@ -1,0 +1,31 @@
+[{
+    "id": 1,
+    "title": "software",
+    "jobType": "fulltime",
+    "company": "Epic Coders",
+    "location": "USA",
+    "payRate": "$55/hr",
+    "replyRate": "82%",
+    "skillSet": ["UI", "React"]
+  },
+  {
+    "id": 3,
+    "title": "software",
+    "jobType": "fulltime",
+    "company": "Epic Coders",
+    "location": "USA",
+    "payRate": "$55/hr",
+    "replyRate": "82%",
+    "skillSet": ["UI", "React"]
+  },
+  {
+    "id": 4,
+    "title": "software",
+    "jobType": "fulltime",
+    "company": "Epic Coders",
+    "location": "USA",
+    "payRate": "$55/hr",
+    "replyRate": "82%",
+    "skillSet": ["UI", "React"]
+  }
+]

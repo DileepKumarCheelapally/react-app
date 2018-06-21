@@ -50,7 +50,7 @@ class JobResultTable extends React.Component {
             <Col span={18} id="job-table-container">
                 <div id="job-table">
                     <div id="job-table-header">
-                        <h2>Results (this.props.jobs.count)</h2>
+                        <h2>Results ({this.props.jobs.length})</h2>
                         <Dropdown overlay={SortByOptions} trigger={['click']}>
                             <Button>Sort by</Button>
                         </Dropdown>

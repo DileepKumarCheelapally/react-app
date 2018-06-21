@@ -57,9 +57,9 @@ class JobSearchContent extends React.Component {
 
         super(props);
 
-        this.state = {
-            searchResults: jobs
-        }
+        // this.state = {
+        //     searchResults: []
+        // }
 
     };
 
@@ -70,6 +70,7 @@ class JobSearchContent extends React.Component {
     };
 
     render() {
+        console.log(this.props.searchResults);
         return (
             <div id="search-content">
                 <JobSearchBar
@@ -81,7 +82,7 @@ class JobSearchContent extends React.Component {
                     </Col>
                     <Col span={18}>
                         <JobResultTable
-                            jobs = {this.state.searchResults}
+                            jobs = {this.props.searchResults}
                         />
                     </Col>
                     <Col span={6}>
