@@ -11,8 +11,7 @@ class CountriesFilter extends React.Component {
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Enter State, Province or Country"
-                    onChange={handleChange}>
-                    {children}
+                    onChange={value => console.log(value)}>
                 </Select>
             </div>
         )

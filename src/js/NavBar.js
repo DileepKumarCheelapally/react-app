@@ -1,10 +1,11 @@
 import React from 'react';
 import {Row, Col, Menu} from 'antd';
+import "../css/NavBar.css";
 
 
 let NavItems = () => {
     return (
-        <Menu mode="horizontal">
+        <Menu id = "nav-top" mode="horizontal">
             <Menu.Item>How It Works</Menu.Item>
             <Menu.Item>Browse</Menu.Item>
             <Menu.Item>Search</Menu.Item>
@@ -15,7 +16,7 @@ let NavItems = () => {
 class NavBar extends React.Component {
     render() {
         return (
-            <Row>
+            <Row id = "nav-bar">
                 <Col span={16} offset={4}>
                     <NavItems />
                 </Col>

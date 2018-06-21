@@ -9,9 +9,9 @@ class AvailabilityFilter extends React.Component {
                 <FilterTitle
                     title = {this.props.title}
                     subTitle = "Clear"/>
-                <Checkbox onChange={onChange}>Hourly</Checkbox>
-                <Checkbox onChange={onChange}>PartTime(20hrs/wk)</Checkbox>
-                <Checkbox onChange={onChange}>FullTime(40hrs/wk)</Checkbox>
+                <Checkbox onChange={value => console.log(value)}>Hourly</Checkbox>
+                <Checkbox onChange={value => console.log(value)}>PartTime(20hrs/wk)</Checkbox>
+                <Checkbox onChange={value => console.log(value)}>FullTime(40hrs/wk)</Checkbox>
             </div>
 
         )

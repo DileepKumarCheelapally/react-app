@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge } from 'antd';
+import "../css/JobResultTable.css";
 
 class JobResultRowCard extends React.Component {
 
@@ -16,10 +17,15 @@ class JobResultRowCard extends React.Component {
         return (
             <div>
                 <hr />
-                <div>
-                    <p>{this.props.title}</p>
-                    <Badge count={this.props.availability} />
-                    <p>{this.props.payRate}</p>
+                <div style={{display: 'flex'}}>
+                    <h3 style={{marginRight: '10px'}}>{this.props.title}</h3>
+                    <Badge style= {{padding: "0 12px",
+                        backgroundColor: this.props.availability === "hourly"
+                                ? "#56d48f"
+                                : this.props.availability === "full-time"
+                                ? "#4bd3ff"
+                                : "#ffc14a"}} count={this.props.availability} />
+                    <h3 style={{textAlign: 'right'}}>{this.props.payRate}</h3>
                 </div>
                 <div>
                     <p><a href="/">{this.props.company}</a></p>

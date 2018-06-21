@@ -10,7 +10,7 @@ class JobTypeFilter extends React.Component {
                     style={{ width: 200 }}
                     placeholder="Select a Job type"
                     optionFilterProp="children"
-                    onChange={handleChange}
+                    onChange={value => console.log(value)}
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                     <Select.Option value="FullTime">Full Time</Select.Option>

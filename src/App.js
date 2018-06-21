@@ -10,7 +10,7 @@ class App extends Component {
       <div className="App">
         <NavBar />
         <JobSearchContent />
-        <Footer />
+        {/*<Footer />*/}
       </div>
     );
   }

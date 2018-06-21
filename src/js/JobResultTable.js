@@ -23,14 +23,21 @@ let SortByOptions = (
 );
 
 let ResultsList = (props) => {
-   const jobs = props.jobs;
-
-    const skills = ["ui", "ux", "android", "javascript", "sketch"];
-
+   const jobs = props.jobList;
 
     const results = jobs.map((job, index) => {
         return (
-            <JobResultRowCard key={index} jobKey={job.id} title={job.title} availability={job.type} payRate="$55/hr" description="" company={job.company} location={job.location} replyRate="88%" skills={skills} />
+            <JobResultRowCard
+                key={index}
+                jobKey={job.id}
+                title={job.title}
+                availability={job.jobType}
+                payRate= {job.payRate}
+                description="1234"
+                company={job.company}
+                location={job.location}
+                replyRate={job.replyRate}
+                skills={job.skillSet} />
         );
     });
 
@@ -40,18 +47,18 @@ let ResultsList = (props) => {
 class JobResultTable extends React.Component {
     render() {
         return (
-            <Col span={12} id="results-container">
-                <div id="results">
-                    <div >
-                        <h2>Results {this.props.jobs.count}</h2>
+            <Col span={18} id="job-table-container">
+                <div id="job-table">
+                    <div id="job-table-header">
+                        <h2>Results (this.props.jobs.count)</h2>
                         <Dropdown overlay={SortByOptions} trigger={['click']}>
                             <Button>Sort by</Button>
                         </Dropdown>
                     </div>
-                    <ResultsList jobList={this.props.job} />
+                    <ResultsList jobList={this.props.jobs} />
                 </div>
-                <div>
-                    <Pagination defaultCurrent={1} total={25} />
+                <div  id="job-table-footer">
+                    <Pagination defaultCurrent={1} total={250} />
                 </div>
             </Col>
         )
