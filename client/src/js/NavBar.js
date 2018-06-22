@@ -1,6 +1,7 @@
 import React from 'react';
 import {Row, Col, Menu} from 'antd';
 import "./NavBar.css";
+import logo from "../images/hubstaff.png";
 
 
 let NavItems = () => {
@@ -17,6 +18,9 @@ class NavBar extends React.Component {
     render() {
         return (
             <Row id = "nav-bar">
+                <Col span={4}>
+                    <img style={{maxWidth: '200px'}} src={logo} />
+                </Col>
                 <Col span={16} offset={4}>
                     <NavItems />
                 </Col>

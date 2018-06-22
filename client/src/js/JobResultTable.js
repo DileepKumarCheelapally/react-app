@@ -31,19 +31,20 @@ const description = "lorem ipsum dolor sit amet consectetur adipiscing elit pell
 let ResultsList = (props) => {
    const jobs = props.jobList;
 
+   console.log('jobs',jobs);
     const results = jobs.map((job, index) => {
         return (
             <JobResultRowCard
                 key={index}
                 jobKey={job.id}
                 title={job.title}
-                availability={job.jobType}
-                payRate= {job.payRate}
+                availability={job.job_type_name}
+                payRate= {job.pay_rate}
                 description = {description}
-                company={job.company}
-                location={job.location}
-                replyRate={job.replyRate}
-                skills={job.skillSet} />
+                company={job.company_name}
+                location={job.location_name}
+                replyRate={job.reply_rate}
+                skills={[]} />
         );
     });
 

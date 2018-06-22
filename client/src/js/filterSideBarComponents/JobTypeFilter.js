@@ -4,6 +4,11 @@ import "./filters.css";
 import FilterTitle from "./FilterTitle";
 
 class JobTypeFilter extends React.Component {
+
+    jobTypeFilter = value => {
+        this.prop.jobTypeChangeHandler(value);
+    }
+
     render() {
         return (
             <div className = "filter-margin">
@@ -15,11 +20,12 @@ class JobTypeFilter extends React.Component {
                     style={{ width: '100%' }}
                     placeholder="Select a Job type"
                     optionFilterProp="children"
-                    onChange={value => console.log(value)}
+                    onChange={this.jobTypeFilter}
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                    <Select.Option value="FullTime">Full Time</Select.Option>
-                    <Select.Option value="PartTime">Part Time</Select.Option>
+                    <Select.Option value="full-time">Full Time</Select.Option>
+                    <Select.Option value="part-time">Part Time</Select.Option>
+                    <Select.Option value="hourly">Hourly</Select.Option>
                 </Select>
             </div>
         )

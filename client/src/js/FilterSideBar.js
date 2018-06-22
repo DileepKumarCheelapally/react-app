@@ -15,13 +15,41 @@ render() {
         <Col>
             <FilterTitle title = "FILTERS" subTitle = "Clear All Filters"/>
             <Divider style={{margin: '1px'}}/>
-            <SkillsFilter title = "Skills"/>
-            <AvailabilityFilter title = "Availability"/>
-            <JobTypeFilter title = "Job Type"/>
-            <PayRateFilter title = "Pay Rate"/>
-            <ExperienceLevelFilter title = "Experience Level"/>
-            <CountriesFilter title = "Countries"/>
-            <LanguagesFilter title = "Language"/>
+            <SkillsFilter
+                title = "Skills"
+                allSkills = {this.props.filterValues.allSkills}
+                skillSetChangeHandler = {this.props.skillSetChangeHandler}
+            />
+            <AvailabilityFilter
+                title = "Availability"
+                availability = {this.props.filterValues.jobTypes}
+                availabilityChangeHandler = {this.props.availabilityChangeHandler}
+            />
+            {/*<JobTypeFilter*/}
+                {/*title = "Job Type"*/}
+                {/*jobType = {this.props.filterValues.jobType}*/}
+                {/*jobTypeChangeHandler = {this.props.jobTypeChangeHandler}*/}
+            {/*/>*/}
+            {/*<PayRateFilter*/}
+                {/*title = "Pay Rate"*/}
+                {/*payRate = {this.props.filterValues.payRate}*/}
+                {/*payRateChangeHandler = {this.props.payRateChangeHandler}*/}
+            {/*/>*/}
+            {/*<ExperienceLevelFilter*/}
+                {/*title = "Experience Level"*/}
+                {/*experienceLevel = {this.props.filterValues.experienceLevel}*/}
+                {/*experienceLevelChangeHandler = {this.props.experienceLevelChangeHandler}*/}
+            {/*/>*/}
+            {/*<CountriesFilter*/}
+                {/*title = "Countries"*/}
+                {/*countries = {this.props.filterValues.countries}*/}
+                {/*countryChangeHandler = {this.props.countryChangeHandler}*/}
+            {/*/>*/}
+            {/*<LanguagesFilter*/}
+                {/*title = "Language"*/}
+                {/*languages = {this.props.filterValues.languages}*/}
+                {/*languageChangeHandler = {this.props.languageChangeHandler}*/}
+            {/*/>*/}
         </Col>
     )
 }

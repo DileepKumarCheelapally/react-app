@@ -6,13 +6,13 @@ class JobResultRowCard extends React.Component {
 
     render() {
 
-        let skills = this.props.skills;
-
-        let skillBadges = skills.map((skill) => {
-
-            return <Badge count={skill} style={{ backgroundColor: '#fff', color: '#999',  boxShadow: '0 0 0 1px #d9d9d9 inset', marginRight: '5px' }} />
-
-        });
+        // let skills = this.props.skills;
+        //
+        // let skillBadges = skills.map((skill) => {
+        //
+        //     return <Badge count={skill} style={{ backgroundColor: '#fff', color: '#999',  boxShadow: '0 0 0 1px #d9d9d9 inset', marginRight: '5px' }} />
+        //
+        // });
 
         return (
             <Row type="flex" align="top">
@@ -38,7 +38,7 @@ class JobResultRowCard extends React.Component {
 
                     <Row>
                         <div>
-                            <p>Reply rate: <strong>{this.props.replyRate}</strong></p>
+                            <p>Reply rate: <strong>{this.props.replyRate}%</strong></p>
                         </div>
                     </Row>
 
@@ -49,13 +49,13 @@ class JobResultRowCard extends React.Component {
                     </Row>
                     <Row>
                         <div>
-                            {skillBadges}
+                            {/*{skillBadges}*/}
                         </div>
                     </Row>
 
                 </Col>
                 <Col span={6}>
-                    <h3 style={{paddingLeft: "5em", textAlign: 'right'}}>{this.props.payRate}</h3>
+                    <h3 style={{paddingLeft: "5em", textAlign: 'right'}}>${this.props.payRate}/hr</h3>
                 </Col>
                 <Divider/>
             </Row>

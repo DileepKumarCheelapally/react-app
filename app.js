@@ -1,20 +1,29 @@
 const express = require('express');
+const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const logger = require('tracer').colorConsole();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-var router = express.Router();
+// init database
+const db = require('./utils/database');
 
-router.route('/datalist')
-  .get(function(req,res){
-    var resJson = require('./testData.json');
 
-    res.json(resJson);
-  });
+app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api', router)
+// app.use(function(req, res, next) {
+//   logger.info(req.body);
+//   next();
+// });
 
-app.get('/', function(req, res){
+var appRoutes = require('./routes/router')(app);
+
+
+app.get('*', function(req, res){
   res.send({ express: 'Hello From Express' });
 });
 
