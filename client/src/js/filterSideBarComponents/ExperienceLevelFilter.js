@@ -1,13 +1,18 @@
 import React from "react";
 import { Select } from "antd";
+import FilterTitle from "./FilterTitle";
+import "./filters.css";
 
 class ExperienceLevelFilter extends React.Component {
     render() {
         return (
-            <div>
+            <div className = "filter-margin">
+                <FilterTitle
+                    title = {this.props.title}
+                    subTitle = "Clear"/>
                 <Select
                     showSearch
-                    style={{ width: 200 }}
+                    style={{ width: '100%' }}
                     placeholder="Select your experience level"
                     optionFilterProp="children"
                     onChange={value => console.log(value)}

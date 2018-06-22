@@ -1,13 +1,18 @@
 import React from "react";
 import { Select } from "antd";
+import "./filters.css";
+import FilterTitle from "./FilterTitle";
 
 class JobTypeFilter extends React.Component {
     render() {
         return (
-            <div>
+            <div className = "filter-margin">
+                <FilterTitle
+                    title = {this.props.title}
+                    subTitle = "Clear"/>
                 <Select
                     showSearch
-                    style={{ width: 200 }}
+                    style={{ width: '100%' }}
                     placeholder="Select a Job type"
                     optionFilterProp="children"
                     onChange={value => console.log(value)}

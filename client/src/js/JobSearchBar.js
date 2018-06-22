@@ -1,7 +1,7 @@
 import React from 'react';
 import {Row, Col, Input} from 'antd';
 import 'antd/dist/antd.css';
-import "../css/JobSearchBar.css";
+import "./JobSearchBar.css";
 
 const Search = Input.Search;
 

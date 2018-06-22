@@ -1,11 +1,12 @@
 import React from "react";
 import { Select } from "antd";
 import FilterTitle from "./FilterTitle";
+import "./filters.css";
 
 class SkillsFilter extends React.Component {
     render() {
         return (
-            <div>
+            <div className= "filter-margin" >
                 <FilterTitle title = {this.props.title} subTitle = "Clear"/>
                 <Select
                     mode="multiple"

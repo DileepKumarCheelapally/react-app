@@ -21,6 +21,12 @@ let SortByOptions = (
         </Menu.Item>
     </Menu>
 );
+const description = "lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant" +
+    " morbi tristique senectus et netus et malesuada fames ac turpis egestas integer eget aliquet " +
+    "nibh praesent tristique magna sit amet purus gravida quis blandit turpis cursus in hac habitasse " +
+    "platea dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc congue " +
+    "nisi vitae suscipit tellus mauris a diam maecenas sed enim ut sem viverra aliquet eget s" +
+    "it amet tellus cras adipiscing enim eu turpis egestas pretium ";
 
 let ResultsList = (props) => {
    const jobs = props.jobList;
@@ -33,7 +39,7 @@ let ResultsList = (props) => {
                 title={job.title}
                 availability={job.jobType}
                 payRate= {job.payRate}
-                description="1234"
+                description = {description}
                 company={job.company}
                 location={job.location}
                 replyRate={job.replyRate}

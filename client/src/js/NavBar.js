@@ -1,6 +1,6 @@
 import React from 'react';
 import {Row, Col, Menu} from 'antd';
-import "../css/NavBar.css";
+import "./NavBar.css";
 
 
 let NavItems = () => {

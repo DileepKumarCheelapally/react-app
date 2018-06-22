@@ -1,7 +1,7 @@
 [{
     "id": 1,
-    "title": "software",
-    "jobType": "fulltime",
+    "title": "Senior Software Engineer",
+    "jobType": "full-time",
     "company": "Epic Coders",
     "location": "USA",
     "payRate": "$55/hr",
@@ -10,8 +10,8 @@
   },
   {
     "id": 3,
-    "title": "software",
-    "jobType": "fulltime",
+    "title": "Software Engineer",
+    "jobType": "hourly",
     "company": "Epic Coders",
     "location": "USA",
     "payRate": "$55/hr",
@@ -20,8 +20,8 @@
   },
   {
     "id": 4,
-    "title": "software",
-    "jobType": "fulltime",
+    "title": "Frontend Developer",
+    "jobType": "part-time",
     "company": "Epic Coders",
     "location": "USA",
     "payRate": "$55/hr",

@@ -13,8 +13,8 @@ class FilterSideBar extends React.Component {
 render() {
     return (
         <Col>
-            <FilterTitle title = "Filters" subTitle = "Clear All Filters"/>
-            <Divider/>
+            <FilterTitle title = "FILTERS" subTitle = "Clear All Filters"/>
+            <Divider style={{margin: '1px'}}/>
             <SkillsFilter title = "Skills"/>
             <AvailabilityFilter title = "Availability"/>
             <JobTypeFilter title = "Job Type"/>

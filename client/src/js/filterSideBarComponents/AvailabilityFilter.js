@@ -1,17 +1,24 @@
 import React from "react";
-import { Checkbox } from "antd";
+import { Row, Checkbox } from "antd";
 import FilterTitle from "./FilterTitle";
+import "./filters.css";
 
 class AvailabilityFilter extends React.Component {
     render() {
         return (
-            <div>
+            <div className = "filter-margin">
                 <FilterTitle
                     title = {this.props.title}
                     subTitle = "Clear"/>
-                <Checkbox onChange={value => console.log(value)}>Hourly</Checkbox>
-                <Checkbox onChange={value => console.log(value)}>PartTime(20hrs/wk)</Checkbox>
-                <Checkbox onChange={value => console.log(value)}>FullTime(40hrs/wk)</Checkbox>
+                <Row>
+                    <Checkbox onChange={value => console.log(value)}>Hourly</Checkbox>
+                </Row>
+                <Row>
+                    <Checkbox onChange={value => console.log(value)}>Part-time (20hrs/wk)</Checkbox>
+                </Row>
+                <Row>
+                    <Checkbox onChange={value => console.log(value)}>Full-time (40hrs/wk)</Checkbox>
+                </Row>
             </div>
 
         )
