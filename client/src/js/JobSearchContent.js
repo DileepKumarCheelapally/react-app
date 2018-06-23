@@ -7,8 +7,18 @@ import FeatureSideBar from "./FeatureSideBar";
 import "./JobSearchContent.css";
 
 let skillSets;
-let countries;
-let jobTypes;
+let allLocations;
+let availability;
+
+let initialState = {
+    skills: [],
+    job_type: [],
+    job_field: [],
+    pay_rate: [20, 50],
+    locations: [],
+    searchKeywords: [],
+    searchResults: []
+}
 
 class JobSearchContent extends React.Component {
 
@@ -16,40 +26,9 @@ class JobSearchContent extends React.Component {
 
         super(props);
 
-        this.state = {
-            skills: [],
-            availability: ["hourly", "part-time 20hrs/wk", "full-time 40hrs/wk"],
-            jobType: [],
-            experienceLevel: "",
-            countries: [],
-            languages: [],
-            payRate: [],
-            searchResults: []
-        }
+        this.state = initialState;
 
     };
-
-    componentDidMount() {
-        this.callSearchApi()
-            .then(res => this.setState({ searchResults: res.jobs }))
-            .catch(err => console.log(err));
-
-        this.callJobTypeApi()
-            .then(res => {
-                jobTypes = res.job_types;
-            })
-            .catch(err => console.log(err));
-
-        this.callSkillSetApi()
-            .then(res => {
-                skillSets = res.skill_sets;
-            })
-            .catch(err => console.log(err));
-
-        this.callLocationsApi()
-            .then(res => this.setState({ countries: res.locations }))
-            .catch(err => console.log(err));
-    }
 
     callSearchApi = async (filters) => {
         const response = await fetch('/api/fetchJobs', {
@@ -71,7 +50,7 @@ class JobSearchContent extends React.Component {
         return body;
     };
 
-    callJobTypeApi = async (filters) => {
+    callJobTypeApi = async () => {
         const response = await fetch('/api/fetchJobTypes', {
             method: 'POST',
             headers: {
@@ -80,7 +59,7 @@ class JobSearchContent extends React.Component {
             body: JSON.stringify({
                 page: 1,
                 per_page: 4,
-                filters: filters
+                filters: {}
             })
         });
         const body = await response.json();
@@ -91,7 +70,7 @@ class JobSearchContent extends React.Component {
         return body;
     };
 
-    callSkillSetApi = async (filters) => {
+    callSkillSetApi = async () => {
         const response = await fetch('/api/fetchSkillSets', {
             method: 'POST',
             headers: {
@@ -100,7 +79,7 @@ class JobSearchContent extends React.Component {
             body: JSON.stringify({
                 page: 1,
                 per_page: 20,
-                filters: filters
+                filters: {}
             })
         });
         const body = await response.json();
@@ -111,7 +90,7 @@ class JobSearchContent extends React.Component {
         return body;
     };
 
-    callLocationsApi = async (filters) => {
+    callLocationsApi = async () => {
         const response = await fetch('/api/fetchLocations', {
             method: 'POST',
             headers: {
@@ -120,7 +99,7 @@ class JobSearchContent extends React.Component {
             body: JSON.stringify({
                 page: 1,
                 per_page: 500,
-                filters: filters
+                filters: {}
             })
         });
         const body = await response.json();
@@ -132,71 +111,107 @@ class JobSearchContent extends React.Component {
     };
 
     searchButtonHandler = value => {
-        this.callApi()
-            .then(res => this.setState({ searchResults: res.jobs }))
+        const filters = this.state;
+        filters.searchKeywords = value.split(',');
+
+        this.callSearchApi(filters)
+            .then(res => this.setState({ searchKeywords: filters.searchKeywords, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     availabilityChangeHandler = value => {
         const filters = this.state;
-        filters.jobType = value;
-        const jobType = value.map((val) => {
-            return jobTypes.find((type) => {
-                return type.id === parseInt(val,10);
-            }).id;
-        });
+        filters.job_type = value;
 
         this.callSearchApi(filters)
-            .then(res => this.setState({ jobType: jobType, searchResults: res.jobs }))
+            .then(res => this.setState({ job_type: value, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     skillSetChangeHandler = value => {
         const filters = this.state;
-        filters.skills = value;
-        const skills = value.map((val) => {
+        filters.skills = value.map((val) => {
             return skillSets.find((skill) => {
-                return skill.id === parseInt(val,10);
+                return skill.skill_set_name === val;
             }).id;
         });
 
         this.callSearchApi(filters)
-            .then(res => this.setState({ skillSet: skills, searchResults: res.jobs }))
+            .then(res => this.setState({ skills: filters.skills, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     jobTypeChangeHandler = value => {
-        this.setState({
-            availability: value
-        });
+        const filters = this.state;
+        filters.job_field = value;
+
+        this.callSearchApi(filters)
+            .then(res => this.setState({ job_field: value, searchResults: res.jobs }))
+            .catch(err => console.log(err));
     };
 
     experienceLevelChangeHandler = value => {
-        this.setState({
-            experienceLevel: value
-        });
+        console.log(value)
     };
 
     languageChangeHandler = value => {
-        this.setState({
-            languages: value
-        });
+        console.log(value)
     };
 
     countryChangeHandler = value => {
-        this.setState({
-            countries: value
+        const filters = this.state;
+        filters.locations = value.map((val) => {
+            return allLocations.find((location) => {
+                return location.location_name === val;
+            }).id;
         });
+
+        this.callSearchApi(filters)
+            .then(res => this.setState({ locations: filters.locations, searchResults: res.jobs }))
+            .catch(err => console.log(err));
     };
 
     payRateChangeHandler = value => {
-        this.setState({
-            payRate: value
-        });
+        const filters = this.state;
+        filters.pay_rate = value;
+
+        this.callSearchApi(filters)
+            .then(res => this.setState({ pay_rate: value, searchResults: res.jobs }))
+            .catch(err => console.log(err));
     };
 
+    componentDidMount() {
+        this.callJobTypeApi()
+            .then(res => {
+                availability = res.job_types;
+            })
+            .catch(err => console.log(err));
+
+        this.callSkillSetApi()
+            .then(res => {
+                skillSets = res.skill_sets;
+            })
+            .catch(err => console.log(err));
+
+        this.callLocationsApi()
+            .then(res => {
+                allLocations = res.locations
+            })
+            .catch(err => console.log(err));
+
+        this.callSearchApi()
+            .then(res => this.setState({ searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    }
+
     render() {
-        console.log(this.state.searchResults);
+
+        let allValues = {
+            skillSets,
+            availability,
+            allLocations
+        };
+
         return (
             <div id="search-content">
                 <JobSearchBar
@@ -205,7 +220,7 @@ class JobSearchContent extends React.Component {
                 <Row>
                     <Col span={6}>
                         <FilterSideBar
-                            filterValues = {Object.assign(this.state, {allSkills: skillSets, jobTypes: jobTypes})}
+                            filterValues = {allValues}
                             availabilityChangeHandler = {this.availabilityChangeHandler}
                             skillSetChangeHandler = {this.skillSetChangeHandler}
                             jobTypeChangeHandler = {this.jobTypeChangeHandler}

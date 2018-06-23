@@ -7,7 +7,7 @@ const Option = Select.Option;
 
 const children = skills => {
     return (skills || []).map((skill) => {
-       return  <Option key={skill.id}>{skill.skill_set_name}</Option>
+       return  <Option key={skill.skill_set_name}>{skill.skill_set_name}</Option>
     })
 };
 

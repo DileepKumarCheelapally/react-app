@@ -11,18 +11,19 @@ import LanguagesFilter from "./filterSideBarComponents/LanguagesFilter";
 
 class FilterSideBar extends React.Component {
 render() {
+        console.log("filter values" + this.props.filterValues.allLocations);
     return (
         <Col>
             <FilterTitle title = "FILTERS" subTitle = "Clear All Filters"/>
             <Divider style={{margin: '1px'}}/>
             <SkillsFilter
                 title = "Skills"
-                allSkills = {this.props.filterValues.allSkills}
+                allSkills = {this.props.filterValues.skillSets}
                 skillSetChangeHandler = {this.props.skillSetChangeHandler}
             />
             <AvailabilityFilter
                 title = "Availability"
-                availability = {this.props.filterValues.jobTypes}
+                availability = {this.props.filterValues.availability}
                 availabilityChangeHandler = {this.props.availabilityChangeHandler}
             />
             {/*<JobTypeFilter*/}
@@ -40,11 +41,11 @@ render() {
                 {/*experienceLevel = {this.props.filterValues.experienceLevel}*/}
                 {/*experienceLevelChangeHandler = {this.props.experienceLevelChangeHandler}*/}
             {/*/>*/}
-            {/*<CountriesFilter*/}
-                {/*title = "Countries"*/}
-                {/*countries = {this.props.filterValues.countries}*/}
-                {/*countryChangeHandler = {this.props.countryChangeHandler}*/}
-            {/*/>*/}
+            <CountriesFilter
+                title = "Countries"
+                allLocations = {this.props.filterValues.allLocations}
+                countryChangeHandler = {this.props.countryChangeHandler}
+            />
             {/*<LanguagesFilter*/}
                 {/*title = "Language"*/}
                 {/*languages = {this.props.filterValues.languages}*/}

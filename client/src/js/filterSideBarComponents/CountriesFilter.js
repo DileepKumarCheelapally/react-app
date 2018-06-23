@@ -6,8 +6,8 @@ import "./filters.css";
 const Option = Select.Option;
 
 const children = countries => {
-    return countries.map((country) => {
-        return  <Option key={country}>{country}</Option>
+    return (countries || []).map((country) => {
+        return  <Option key={country.location_name}>{country.location_name}</Option>
     })
 };
 
@@ -18,6 +18,7 @@ class CountriesFilter extends React.Component {
     };
 
     render() {
+        console.log("countries" + this.props.allLocations)
         return (
             <div className = "filter-margin">
                 <FilterTitle title = {this.props.title} subTitle = "Clear"/>
@@ -27,7 +28,7 @@ class CountriesFilter extends React.Component {
                     placeholder="Enter State, Province or Country"
                     onChange={this.handleChange}
                 >
-                    {children(this.props.countries)}
+                    {children(this.props.allLocations)}
                 </Select>
             </div>
         )
