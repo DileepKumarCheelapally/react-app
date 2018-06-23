@@ -13,12 +13,19 @@ class AvailabilityFilter extends React.Component {
             <div className = "filter-margin">
                 <FilterTitle
                     title = {this.props.title}
-                    subTitle = "Clear"/>
-                <Checkbox.Group onChange={this.onCheckboxChange}>
-                    {(this.props.availability || []).map((type) => {
+                    subTitle = "Clear"
+                    clearClickHandler = {this.props.availabilityClearedHandler}
+                />
+                <Checkbox.Group
+                    onChange={this.onCheckboxChange}
+                    value = {this.props.selectedValues}
+                >
+                    {(this.props.availabilityOptions || []).map((type) => {
                         return (
                             <Row key ={type.id}>
-                                <Checkbox value={type.id}>{type.job_type_name}</Checkbox>
+                                <Checkbox value={type.id}>{type.job_type_name === "hourly" ?
+                                    "Hourly" : type.job_type_name === "full-time" ?
+                                "Full-time (40 hrs/wk)" : "Part-time (20 hrs/wk)"}</Checkbox>
                             </Row>
                         )
                     })}

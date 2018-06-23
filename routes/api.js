@@ -4,17 +4,32 @@ var logger = require('tracer').colorConsole();
 const knex = require('./../utils/database').knex;
 const _ = require('underscore');
 
+/***
+	* List of API's
+	* fetchJobs - to fetch the jobs based on filter
+	* fetchLocations - to fetch list of locations
+	* fetchJobTypes - to fetch list of Job Types
+	* fetchSkillSets - to fetch list of skill sets
+	* fetchJobFields - to fetch list of Job Fields
+	* fetchExperiences - to fetch list of experience_level
+	* fetchLanguages - to fetch list of languages
+***/
+
 module.exports = function () {
 
 	var router = express.Router();
 
 	/***
 	* filters:
-			job_type - array of ints
-			job_field - array of ints
-			skills - array of ints
-			pay_rate - Array of two integer ( min, max)
+			job_type(Availability) - array of ints
+			job_field - int
+			language -array of ints
+			experience - int
 			locations - array of ints
+			pay_rate - Array of two integer ( min, max)
+			searchKeywords - Array of Strings
+			skills - array of ints
+			
 	  page:
 	  per_page:
 	*/
@@ -32,65 +47,72 @@ module.exports = function () {
 			per_page = 30;
 		}
 
-
-
 		var filters = data.filters;
 
 		if (!filters) {
 			filters = {};
 		}
-		logger.info(filters);
+		// logger.info(filters);
 
 		var query = knex.from("jobs")
 			.innerJoin('job_type', 'jobs.job_type_id', 'job_type.id')
 			.innerJoin('location', 'jobs.location_id', 'location.id')
 			.innerJoin('company', 'jobs.company_id', 'company.id')
 			.innerJoin('job_field', 'job_field.id', 'jobs.job_field_id')
+			.innerJoin('languages', 'languages.id', 'jobs.languages_id')
+			.innerJoin('experience_level', 'experience_level.id', 'jobs.experience_id')
 			.orderBy('jobs.id', 'asc')
 			.where('jobs.id', '<', 1000000000)
 			.select('jobs.id', 'jobs.title', 'jobs.job_type_id', 'jobs.company_id',
 			'jobs.location_id', 'jobs.pay_rate', 'jobs.reply_rate',
 			'job_type.job_type_name', 'location.location_name',
 			'company.company_name', 'job_field.job_field_name', 'jobs.job_field_id',
-			'job_type.job_type_name');
+			'job_type.job_type_name', 'jobs.languages_id', 'languages.name as language_name',
+			'jobs.experience_id', 'experience_level.experience as experience'
+			);
 
 
 		if (filters.job_type && filters.job_type.length > 0) {
 			query = query.andWhere(function () {
-				this.whereIn('job_type_id', filters.job_type);
+				this.whereIn('jobs.job_type_id', filters.job_type);
 			});
 		}
 
-		if (filters.job_field && filters.job_field.length > 0) {
+		if (filters.job_field && filters.job_field > 0) {
+			query = query.andWhere('jobs.job_field_id', filters.job_field);
+		}
+
+		if (filters.language && filters.language.length > 0) {
 			query = query.andWhere(function () {
-				this.whereIn('job_field_id', filters.job_field);
+				this.whereIn('jobs.languages_id', filters.language);
 			});
 		}
 
-		logger.info(filters.locations);
+		if (filters.experience && filters.experience > 0) {
+			query = query.andWhere('jobs.experience_id', filters.experience);
+		}
 
 		if (filters.locations && filters.locations.length > 0) {
 			query = query.andWhere(function () {
-				this.whereIn('location_id', filters.locations);
+				this.whereIn('jobs.location_id', filters.locations);
 			});
 		}
 
 		if (filters.pay_rate && filters.pay_rate.length === 2) {
-			query = query.andWhereBetween('pay_rate', filters.pay_rate);
+			query = query.andWhereBetween('jobs.pay_rate', filters.pay_rate);
 		}
 
-		if (filters.searchKey && filter.searchKey.length > 0) {
+		if (filters.searchKeywords && filters.searchKeywords.length > 0) {
 			query.andWhere(function () {
-				filters.searchKey.forEach(function(element) {
-						this.orWhere(knex.raw('title LIKE ?', '%' + element + '%'));
+				filters.searchKeywords.forEach(function (element) {
+					this.orWhere(knex.raw('jobs.title LIKE ?', '%' + element + '%'));
 				}, this);
 			})
 		}
 
 		query = query.limit(per_page).offset((page - 1) * per_page);
-
-
-
+		// subQuery = query;
+		// query.select('count').from(subQuery.count('jobs.id as count'));
 
 		if (filters.skills && filters.skills.length > 0) {
 			logger.info('here');
@@ -117,6 +139,7 @@ module.exports = function () {
 
 
 	function fetch_jobs_query(query, res) {
+
 		query.then(function (results) {
 			var job_ids = _.pluck(results, 'id');
 			logger.info(job_ids);
@@ -150,31 +173,7 @@ module.exports = function () {
 
 
 	router.post('/fetchLocations', function (req, res, next) {
-		var data = req.body;
-		var page = data.page;
-		var per_page = data.per_page;
-
-		if (!page) {
-			page = 1;
-		}
-
-		if (!per_page) {
-			per_page = 30;
-		}
-
-		var filters = data.filters;
-
-		if (!filters) {
-			filters = {};
-		}
-
 		var query = knex.from("location").select()
-		query = query.limit(per_page).offset((page - 1) * per_page);
-
-		if (filters.searchKey) {
-			query = query.where(knex.raw('location_name LIKE ?', '%' + filters.searchKey + '%'));
-		}
-
 		query.then(function (results) {
 			return res.json({
 				'locations': results
@@ -184,31 +183,7 @@ module.exports = function () {
 	});
 
 	router.post('/fetchJobTypes', function (req, res, next) {
-		var data = req.body;
-		var page = data.page;
-		var per_page = data.per_page;
-
-		if (!page) {
-			page = 1;
-		}
-
-		if (!per_page) {
-			per_page = 30;
-		}
-
-		var filters = data.filters;
-
-		if (!filters) {
-			filters = {};
-		}
-
 		var query = knex.from("job_type").select()
-		query = query.limit(per_page).offset((page - 1) * per_page);
-
-		if (filters.searchKey) {
-			query = query.where(knex.raw('job_type_name LIKE ?', '%' + filters.searchKey + '%'));
-		}
-
 		query.then(function (results) {
 			return res.json({
 				'job_types': results
@@ -219,31 +194,7 @@ module.exports = function () {
 
 
 	router.post('/fetchSkillSets', function (req, res, next) {
-		var data = req.body;
-		var page = data.page;
-		var per_page = data.per_page;
-
-		if (!page) {
-			page = 1;
-		}
-
-		if (!per_page) {
-			per_page = 30;
-		}
-
-		var filters = data.filters;
-
-		if (!filters) {
-			filters = {};
-		}
-
 		var query = knex.from("skill_set").select()
-		query = query.limit(per_page).offset((page - 1) * per_page);
-
-		if (filters.searchKey) {
-			query = query.where(knex.raw('skill_set_name LIKE ?', '%' + filters.searchKey + '%'));
-		}
-
 		query.then(function (results) {
 			return res.json({
 				'skill_sets': results
@@ -253,6 +204,36 @@ module.exports = function () {
 	});
 
 
+
+	router.post('/fetchJobFields', function (req, res, next) {
+		var query = knex.from("job_field").select()
+		query.then(function (results) {
+			return res.json({
+				'job_fields': results
+			});
+		});
+
+	});
+
+	router.post('/fetchExperiences', function (req, res, next) {
+		var query = knex.from("experience_level").select()
+		query.then(function (results) {
+			return res.json({
+				'experience_levels': results
+			});
+		});
+
+	});
+
+	router.post('/fetchLanguages', function (req, res, next) {
+		var query = knex.from("languages").select()
+		query.then(function (results) {
+			return res.json({
+				'languages': results
+			});
+		});
+
+	});
 
 
 

@@ -5,20 +5,36 @@ import FilterSideBar from './FilterSideBar';
 import JobResultTable from './JobResultTable';
 import FeatureSideBar from "./FeatureSideBar";
 import "./JobSearchContent.css";
+import {
+    callExperiencesApi,
+    callJobFieldsApi,
+    callJobTypeApi,
+    callLanguagesApi,
+    callLocationsApi,
+    callSearchApi,
+    callSkillSetApi
+} from "./utils/ApiCallUtil";
 
 let skillSets;
 let allLocations;
 let availability;
+let allJobTypes;
+let allExperiences;
+let allLanguages;
+let allValues = {};
 
-let initialState = {
+const initialState = {
     skills: [],
     job_type: [],
-    job_field: [],
+    job_field: undefined,
     pay_rate: [20, 50],
+    experience: undefined,
     locations: [],
+    language: [],
     searchKeywords: [],
-    searchResults: []
-}
+    searchResults: [],
+    page: 1
+};
 
 class JobSearchContent extends React.Component {
 
@@ -30,188 +46,237 @@ class JobSearchContent extends React.Component {
 
     };
 
-    callSearchApi = async (filters) => {
-        const response = await fetch('/api/fetchJobs', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                page: 1,
-                per_page: 30,
-                filters: filters
-            })
-        });
-        const body = await response.json();
-
-        if (response.status !== 200) throw Error(body.message);
-        console.log(body);
-
-        return body;
-    };
-
-    callJobTypeApi = async () => {
-        const response = await fetch('/api/fetchJobTypes', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                page: 1,
-                per_page: 4,
-                filters: {}
-            })
-        });
-        const body = await response.json();
-
-        if (response.status !== 200) throw Error(body.message);
-        console.log(body);
-
-        return body;
-    };
-
-    callSkillSetApi = async () => {
-        const response = await fetch('/api/fetchSkillSets', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                page: 1,
-                per_page: 20,
-                filters: {}
-            })
-        });
-        const body = await response.json();
-
-        if (response.status !== 200) throw Error(body.message);
-        console.log(body);
-
-        return body;
-    };
-
-    callLocationsApi = async () => {
-        const response = await fetch('/api/fetchLocations', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                page: 1,
-                per_page: 500,
-                filters: {}
-            })
-        });
-        const body = await response.json();
-
-        if (response.status !== 200) throw Error(body.message);
-        console.log(body);
-
-        return body;
+    createFilterObject = (state) => {
+        return {
+            skills: state.skills,
+            job_type: state.job_type,
+            job_field: state.job_field,
+            pay_rate: state.pay_rate,
+            experience: state.experience,
+            locations: state.locations,
+            searchKeywords: state.searchKeywords,
+            language: state.language,
+            page: state.page
+        };
     };
 
     searchButtonHandler = value => {
-        const filters = this.state;
+        const filters = this.createFilterObject(this.state);
         filters.searchKeywords = value.split(',');
+        filters.page = 1;
 
-        this.callSearchApi(filters)
-            .then(res => this.setState({ searchKeywords: filters.searchKeywords, searchResults: res.jobs }))
+        callSearchApi(filters)
+            .then(res => this.setState({ page: 1, searchKeywords: filters.searchKeywords, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     availabilityChangeHandler = value => {
-        const filters = this.state;
+        const filters = this.createFilterObject(this.state);
         filters.job_type = value;
+        filters.page = 1;
 
-        this.callSearchApi(filters)
-            .then(res => this.setState({ job_type: value, searchResults: res.jobs }))
+        callSearchApi(filters)
+            .then(res => this.setState({ page:1, job_type: value, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     skillSetChangeHandler = value => {
-        const filters = this.state;
+        const filters = this.createFilterObject(this.state);
         filters.skills = value.map((val) => {
             return skillSets.find((skill) => {
                 return skill.skill_set_name === val;
             }).id;
         });
+        filters.page = 1;
 
-        this.callSearchApi(filters)
-            .then(res => this.setState({ skills: filters.skills, searchResults: res.jobs }))
+        callSearchApi(filters)
+            .then(res => this.setState({ page:1, skills: filters.skills, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     jobTypeChangeHandler = value => {
-        const filters = this.state;
-        filters.job_field = value;
+        const filters = this.createFilterObject(this.state);
+        filters.job_field = allJobTypes.find((jobType) => {
+            return jobType.job_field_name === value;
+        }).id;
+        filters.page = 1;
 
-        this.callSearchApi(filters)
-            .then(res => this.setState({ job_field: value, searchResults: res.jobs }))
+        callSearchApi(filters)
+            .then(res => this.setState({ page:1, job_field: value, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     experienceLevelChangeHandler = value => {
-        console.log(value)
+        const filters = this.createFilterObject(this.state);
+        filters.experience = allExperiences.find((experience) => {
+                return experience.experience === value;
+            }).id;
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ page:1, experience: value, searchResults: res.jobs }))
+            .catch(err => console.log(err));
     };
 
     languageChangeHandler = value => {
-        console.log(value)
+        const filters = this.createFilterObject(this.state);
+        filters.language = value.map((val) => {
+            return allLanguages.find((language) => {
+                return language.name === val;
+            }).id;
+        });
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ page:1, language: filters.language, searchResults: res.jobs }))
+            .catch(err => console.log(err));
     };
 
     countryChangeHandler = value => {
-        const filters = this.state;
+        const filters = this.createFilterObject(this.state);
         filters.locations = value.map((val) => {
             return allLocations.find((location) => {
                 return location.location_name === val;
             }).id;
         });
+        filters.page = 1;
 
-        this.callSearchApi(filters)
-            .then(res => this.setState({ locations: filters.locations, searchResults: res.jobs }))
+        callSearchApi(filters)
+            .then(res => this.setState({ page:1, locations: filters.locations, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
     payRateChangeHandler = value => {
-        const filters = this.state;
+        const filters = this.createFilterObject(this.state);
         filters.pay_rate = value;
+        filters.page = 1;
 
-        this.callSearchApi(filters)
-            .then(res => this.setState({ pay_rate: value, searchResults: res.jobs }))
+        callSearchApi(filters)
+            .then(res => this.setState({ page:1, pay_rate: value, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    pageChangeHandler = value => {
+        const filters = this.createFilterObject(this.state);
+        filters.page = value;
+
+        callSearchApi(filters)
+            .then(res => this.setState({page: value, searchResults: res.jobs}))
+            .catch(err => console.log(err));
+    };
+
+    skillsClearedHandler = () => {
+        const filters = this.createFilterObject(this.state);
+        filters.skills = [];
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ skills: filters.skills, page: 1, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    availabilityClearedHandler = () => {
+        const filters = this.createFilterObject(this.state);
+        filters.job_type = [];
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ job_type: filters.job_type, page: 1, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    jobTypeClearedHandler = () => {
+        const filters = this.createFilterObject(this.state);
+        filters.job_field = undefined;
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ job_field: filters.job_field, page: 1, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    payRateClearedHandler = () => {
+        const filters = this.createFilterObject(this.state);
+        filters.pay_rate = [20, 50];
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ pay_rate: filters.pay_rate, page: 1, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    experienceLevelClearedHandler = () => {
+        const filters = this.createFilterObject(this.state);
+        filters.experience = undefined;
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ experience: undefined, page: 1, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    countryClearedHandler = () => {
+        const filters = this.createFilterObject(this.state);
+        filters.locations = [];
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ locations: filters.locations, page:1, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    languagesClearedHandler = () => {
+        const filters = this.createFilterObject(this.state);
+        filters.language = [];
+        filters.page = 1;
+
+        callSearchApi(filters)
+            .then(res => this.setState({ language: filters.language, page: 1, searchResults: res.jobs }))
+            .catch(err => console.log(err));
+    };
+
+    clearAllFiltersHandler = () => {
+        const filters = this.createFilterObject(initialState);
+
+        callSearchApi(filters)
+            .then(res => this.setState({...initialState, searchResults: res.jobs}))
             .catch(err => console.log(err));
     };
 
     componentDidMount() {
-        this.callJobTypeApi()
-            .then(res => {
-                availability = res.job_types;
-            })
-            .catch(err => console.log(err));
-
-        this.callSkillSetApi()
-            .then(res => {
-                skillSets = res.skill_sets;
-            })
-            .catch(err => console.log(err));
-
-        this.callLocationsApi()
-            .then(res => {
-                allLocations = res.locations
-            })
-            .catch(err => console.log(err));
-
-        this.callSearchApi()
-            .then(res => this.setState({ searchResults: res.jobs }))
-            .catch(err => console.log(err));
+        Promise.all(
+            [
+                callJobTypeApi(),
+                callSkillSetApi(),
+                callLocationsApi(),
+                callLanguagesApi(),
+                callJobFieldsApi(),
+                callExperiencesApi(),
+                callSearchApi(this.createFilterObject(initialState))
+            ]
+        ).then((responses) => {
+            availability = responses[0].job_types;
+            skillSets = responses[1].skill_sets;
+            allLocations = responses[2].locations;
+            allLanguages = responses[3].languages;
+            allJobTypes = responses[4].job_fields;
+            allExperiences = responses[5].experience_levels;
+            allValues = {
+                availability,
+                skillSets,
+                allLocations,
+                allLanguages,
+                allJobTypes,
+                allExperiences
+            };
+            this.setState({
+                searchResults: responses[6].jobs
+            });
+        })
+            .catch(err => console.log("ComponentDidMount API requests failed with " + err));
     }
 
     render() {
-
-        let allValues = {
-            skillSets,
-            availability,
-            allLocations
-        };
-
         return (
             <div id="search-content">
                 <JobSearchBar
@@ -221,18 +286,29 @@ class JobSearchContent extends React.Component {
                     <Col span={6}>
                         <FilterSideBar
                             filterValues = {allValues}
+                            filterStatus = {this.state}
                             availabilityChangeHandler = {this.availabilityChangeHandler}
+                            availabilityClearedHandler = {this.availabilityClearedHandler}
                             skillSetChangeHandler = {this.skillSetChangeHandler}
+                            skillsClearedHandler = {this.skillsClearedHandler}
                             jobTypeChangeHandler = {this.jobTypeChangeHandler}
-                            experienceLevelChangeHandler = {this.experienceLevelChangeHandler}
-                            languageChangeHandler = {this.languageChangeHandler}
-                            countryChangeHandler = {this.countryChangeHandler}
+                            jobTypeClearedHandler = {this.jobTypeClearedHandler}
                             payRateChangeHandler = {this.payRateChangeHandler}
+                            payRateClearedHandler = {this.payRateClearedHandler}
+                            experienceLevelChangeHandler = {this.experienceLevelChangeHandler}
+                            experienceLevelClearedHandler = {this.experienceLevelClearedHandler}
+                            languageChangeHandler = {this.languageChangeHandler}
+                            languagesClearedHandler = {this.languagesClearedHandler}
+                            countryChangeHandler = {this.countryChangeHandler}
+                            countryClearedHandler = {this.countryClearedHandler}
+                            clearAllFiltersHandler = {this.clearAllFiltersHandler}
                         />
                     </Col>
                     <Col span={18}>
                         <JobResultTable
                             jobs = {this.state.searchResults}
+                            page = {this.state.page}
+                            pageChangeHandler = {this.pageChangeHandler}
                         />
                     </Col>
                     <Col span={6}>

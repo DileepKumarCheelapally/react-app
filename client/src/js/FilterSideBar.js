@@ -11,46 +11,61 @@ import LanguagesFilter from "./filterSideBarComponents/LanguagesFilter";
 
 class FilterSideBar extends React.Component {
 render() {
-        console.log("filter values" + this.props.filterValues.allLocations);
     return (
-        <Col>
-            <FilterTitle title = "FILTERS" subTitle = "Clear All Filters"/>
+        <Col style={{display: "flex", flexDirection: "column"}}>
+            <FilterTitle
+                title = "FILTERS"
+                subTitle = "Clear All Filters"
+                clearClickHandler = {this.props.clearAllFiltersHandler}/>
             <Divider style={{margin: '1px'}}/>
             <SkillsFilter
                 title = "Skills"
                 allSkills = {this.props.filterValues.skillSets}
+                selectedSkills = {this.props.filterStatus.skills}
                 skillSetChangeHandler = {this.props.skillSetChangeHandler}
+                skillsClearedHandler = {this.props.skillsClearedHandler}
             />
             <AvailabilityFilter
                 title = "Availability"
-                availability = {this.props.filterValues.availability}
+                availabilityOptions = {this.props.filterValues.availability}
+                selectedValues = {this.props.filterStatus.job_type}
                 availabilityChangeHandler = {this.props.availabilityChangeHandler}
+                availabilityClearedHandler = {this.props.availabilityClearedHandler}
             />
-            {/*<JobTypeFilter*/}
-                {/*title = "Job Type"*/}
-                {/*jobType = {this.props.filterValues.jobType}*/}
-                {/*jobTypeChangeHandler = {this.props.jobTypeChangeHandler}*/}
-            {/*/>*/}
-            {/*<PayRateFilter*/}
-                {/*title = "Pay Rate"*/}
-                {/*payRate = {this.props.filterValues.payRate}*/}
-                {/*payRateChangeHandler = {this.props.payRateChangeHandler}*/}
-            {/*/>*/}
-            {/*<ExperienceLevelFilter*/}
-                {/*title = "Experience Level"*/}
-                {/*experienceLevel = {this.props.filterValues.experienceLevel}*/}
-                {/*experienceLevelChangeHandler = {this.props.experienceLevelChangeHandler}*/}
-            {/*/>*/}
+            <JobTypeFilter
+                title = "Job Type"
+                jobTypes = {this.props.filterValues.allJobTypes}
+                selectedValue = {this.props.filterStatus.job_field}
+                jobTypeChangeHandler = {this.props.jobTypeChangeHandler}
+                jobTypeClearedHandler = {this.props.jobTypeClearedHandler}
+            />
+            <PayRateFilter
+                title = "Pay rate/hr ($)"
+                payRate = {this.props.filterStatus.pay_rate}
+                payRateChangeHandler = {this.props.payRateChangeHandler}
+                payRateClearedHandler = {this.props.payRateClearedHandler}
+            />
+            <ExperienceLevelFilter
+                title = "Experience Level"
+                experienceLevels = {this.props.filterValues.allExperiences}
+                selectedValue = {this.props.filterStatus.experience}
+                experienceLevelChangeHandler = {this.props.experienceLevelChangeHandler}
+                experienceLevelClearedHandler = {this.props.experienceLevelClearedHandler}
+            />
             <CountriesFilter
                 title = "Countries"
                 allLocations = {this.props.filterValues.allLocations}
+                selectedValues = {this.props.filterStatus.locations}
                 countryChangeHandler = {this.props.countryChangeHandler}
+                countryClearedHandler = {this.props.countryClearedHandler}
             />
-            {/*<LanguagesFilter*/}
-                {/*title = "Language"*/}
-                {/*languages = {this.props.filterValues.languages}*/}
-                {/*languageChangeHandler = {this.props.languageChangeHandler}*/}
-            {/*/>*/}
+            <LanguagesFilter
+                title = "Language"
+                allLanguages = {this.props.filterValues.allLanguages}
+                selectedValues = {this.props.filterStatus.language}
+                languageChangeHandler = {this.props.languageChangeHandler}
+                languagesClearedHandler = {this.props.languagesClearedHandler}
+            />
         </Col>
     )
 }

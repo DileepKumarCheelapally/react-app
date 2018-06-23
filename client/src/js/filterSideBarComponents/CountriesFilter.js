@@ -17,16 +17,28 @@ class CountriesFilter extends React.Component {
         this.props.countryChangeHandler(value);
     };
 
+    countryNames = (allLocations, selectedLocations) => {
+        return (selectedLocations || []).map((selectedLocation) => {
+            return allLocations.find((location) => {
+                return location.id === selectedLocation;
+            }).location_name;
+        });
+    };
+
     render() {
-        console.log("countries" + this.props.allLocations)
         return (
             <div className = "filter-margin">
-                <FilterTitle title = {this.props.title} subTitle = "Clear"/>
+                <FilterTitle
+                    title = {this.props.title}
+                    subTitle = "Clear"
+                    clearClickHandler = {this.props.countryClearedHandler}
+                />
                 <Select
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Enter State, Province or Country"
                     onChange={this.handleChange}
+                    value = {this.countryNames(this.props.allLocations, this.props.selectedValues)}
                 >
                     {children(this.props.allLocations)}
                 </Select>

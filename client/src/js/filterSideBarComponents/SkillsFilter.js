@@ -17,16 +17,28 @@ class SkillsFilter extends React.Component {
         this.props.skillSetChangeHandler(value);
     };
 
+    skillNames = (allSkills, selectedSkills) => {
+        return (selectedSkills || []).map((selectedSkill) => {
+            return allSkills.find((skill) => {
+                return skill.id === selectedSkill;
+            }).skill_set_name;
+        });
+    };
+
     render() {
-        console.log(this.props.allSkills)
         return (
             <div className= "filter-margin" >
-                <FilterTitle title = {this.props.title} subTitle = "Clear"/>
+                <FilterTitle
+                    title = {this.props.title}
+                    subTitle = "Clear"
+                    clearClickHandler = {this.props.skillsClearedHandler}
+                />
                 <Select
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Please select Skills"
                     onChange={this.handleChange}
+                    value = {this.skillNames(this.props.allSkills, this.props.selectedSkills)}
                 >
                     {children(this.props.allSkills)}
                 </Select>

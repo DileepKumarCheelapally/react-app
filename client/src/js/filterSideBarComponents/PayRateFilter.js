@@ -4,10 +4,8 @@ import FilterTitle from "./FilterTitle";
 import "./filters.css";
 
 const marks = {
-    10: '$10',
-    30: '$30',
-    50: '$50',
-    150: '$150'
+    10: '10',
+    150: '150'
 };
 
 class PayRateFilter extends React.Component {
@@ -15,9 +13,11 @@ class PayRateFilter extends React.Component {
     render() {
         return (
             <div className = "filter-margin">
-                <FilterTitle title = {this.props.title} subTitle = "Clear"/>
-                <Slider range min={10} max={150} marks={marks} defaultValue={[30, 50]} onAfterChange={value => this.props.payRateChangeHandler(value)} />
-                <Checkbox onChange={value => console.log(value)}>Include profiles with payrates</Checkbox>
+                <FilterTitle title = {this.props.title}
+                             subTitle = "Clear"
+                             clearClickHandler = {this.props.payRateClearedHandler}
+                />
+                <Slider range min={10} max={150} marks={marks} value={this.props.payRate} onChange={value => this.props.payRateChangeHandler(value)} />
             </div>
         );
     }

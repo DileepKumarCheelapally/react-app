@@ -11,7 +11,8 @@ class FilterTitle extends React.Component {
                     {this.props.title === "FILTERS" ? <h3>{this.props.title}</h3> : <h4>{this.props.title}</h4>}
                 </Col>
                 <Col span={12}>
-                    <h4 style={{textAlign: 'right', color: '#929292'}}>{this.props.subTitle}</h4>
+                    <h4 onClick={this.props.clearClickHandler}
+                        style={{textAlign: 'right', color: '#929292', cursor: 'pointer'}}>{this.props.subTitle}</h4>
                 </Col>
             </Row>
         )
