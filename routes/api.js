@@ -6,13 +6,13 @@ const _ = require('underscore');
 
 /***
 	* List of API's
-	* fetchJobs - to fetch the jobs based on filter
-	* fetchLocations - to fetch list of locations
-	* fetchJobTypes - to fetch list of Job Types
-	* fetchSkillSets - to fetch list of skill sets
-	* fetchJobFields - to fetch list of Job Fields
-	* fetchExperiences - to fetch list of experience_level
-	* fetchLanguages - to fetch list of languages
+	* jobs - to fetch the jobs based on filter
+	* locations - to fetch list of locations
+	* jobTypes - to fetch list of Job Types
+	* skillSets - to fetch list of skill sets
+	* jobFields - to fetch list of Job Fields
+	* experiences - to fetch list of experience_level
+	* languages - to fetch list of languages
 ***/
 
 module.exports = function () {
@@ -33,7 +33,7 @@ module.exports = function () {
 	  page:
 	  per_page:
 	*/
-	router.post('/fetchJobs', function (req, res, next) {
+	router.post('/jobs', function (req, res, next) {
 
 		var data = req.body;
 		var page = data.page;
@@ -52,7 +52,6 @@ module.exports = function () {
 		if (!filters) {
 			filters = {};
 		}
-		// logger.info(filters);
 
 		var query = knex.from("jobs")
 			.innerJoin('job_type', 'jobs.job_type_id', 'job_type.id')
@@ -111,11 +110,8 @@ module.exports = function () {
 		}
 
 		query = query.limit(per_page).offset((page - 1) * per_page);
-		// subQuery = query;
-		// query.select('count').from(subQuery.count('jobs.id as count'));
 
 		if (filters.skills && filters.skills.length > 0) {
-			logger.info('here');
 			var skills_query = knex.from('jobs_skill_set').select()
 				.whereIn('skill_set_id', filters.skills)
 				.groupBy('job_id');
@@ -124,7 +120,6 @@ module.exports = function () {
 				_.each(job_skills_res, function (job_skills) {
 					job_ids.push(job_skills.job_id);
 				})
-				logger.info(job_ids);
 				query = query.whereIn('jobs.id', job_ids);
 				return fetch_jobs_query(query, res);
 			});
@@ -141,7 +136,6 @@ module.exports = function () {
 
 		query.then(function (results) {
 			var job_ids = _.pluck(results, 'id');
-			logger.info(job_ids);
 
 			var skills_query = knex.from('jobs_skill_set')
 				.innerJoin('skill_set', 'skill_set.id', 'jobs_skill_set.skill_set_id')
@@ -171,7 +165,7 @@ module.exports = function () {
 	}
 
 
-	router.post('/fetchLocations', function (req, res, next) {
+	router.post('/locations', function (req, res, next) {
 		var query = knex.from("location").select()
 		query.then(function (results) {
 			return res.json({
@@ -181,7 +175,7 @@ module.exports = function () {
 
 	});
 
-	router.post('/fetchJobTypes', function (req, res, next) {
+	router.post('/jobTypes', function (req, res, next) {
 		var query = knex.from("job_type").select()
 		query.then(function (results) {
 			return res.json({
@@ -192,7 +186,7 @@ module.exports = function () {
 	});
 
 
-	router.post('/fetchSkillSets', function (req, res, next) {
+	router.post('/skillSets', function (req, res, next) {
 		var query = knex.from("skill_set").select()
 		query.then(function (results) {
 			return res.json({
@@ -204,7 +198,7 @@ module.exports = function () {
 
 
 
-	router.post('/fetchJobFields', function (req, res, next) {
+	router.post('/jobFields', function (req, res, next) {
 		var query = knex.from("job_field").select()
 		query.then(function (results) {
 			return res.json({
@@ -214,7 +208,7 @@ module.exports = function () {
 
 	});
 
-	router.post('/fetchExperiences', function (req, res, next) {
+	router.post('/experiences', function (req, res, next) {
 		var query = knex.from("experience_level").select()
 		query.then(function (results) {
 			return res.json({
@@ -224,7 +218,7 @@ module.exports = function () {
 
 	});
 
-	router.post('/fetchLanguages', function (req, res, next) {
+	router.post('/languages', function (req, res, next) {
 		var query = knex.from("languages").select()
 		query.then(function (results) {
 			return res.json({

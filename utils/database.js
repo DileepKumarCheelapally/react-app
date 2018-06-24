@@ -14,9 +14,4 @@ var knex = require('knex')({
   debug: true
 });
 
-// knex.select().from('Jobs').then(function(resp){
-// 	logger.info(resp);
-// })
-
-// exports.connection = connection;
 exports.knex = knex;

@@ -1,5 +1,5 @@
 export const callSearchApi = async (filters) => {
-    const response = await fetch('/api/fetchJobs', {
+    const response = await fetch('/api/jobs', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export const callSearchApi = async (filters) => {
 };
 
 export const callJobTypeApi = async () => {
-    const response = await fetch('/api/fetchJobTypes', {
+    const response = await fetch('/api/jobTypes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export const callJobTypeApi = async () => {
 };
 
 export const callSkillSetApi = async () => {
-    const response = await fetch('/api/fetchSkillSets', {
+    const response = await fetch('/api/skillSets', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export const callSkillSetApi = async () => {
 };
 
 export const callLocationsApi = async () => {
-    const response = await fetch('/api/fetchLocations', {
+    const response = await fetch('/api/locations', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export const callLocationsApi = async () => {
 };
 
 export const callJobFieldsApi = async () => {
-    const response = await fetch('/api/fetchJobFields', {
+    const response = await fetch('/api/jobFields', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export const callJobFieldsApi = async () => {
 };
 
 export const callExperiencesApi = async () => {
-    const response = await fetch('/api/fetchExperiences', {
+    const response = await fetch('/api/experiences', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export const callExperiencesApi = async () => {
 };
 
 export const callLanguagesApi = async () => {
-    const response = await fetch('/api/fetchLanguages', {
+    const response = await fetch('/api/languages', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -31,7 +31,9 @@ class JobTypeFilter extends React.Component {
                     optionFilterProp="children"
                     onChange={this.jobTypeFilter}
                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                    value = {this.props.selectedValue}
+                    value = {((this.props.jobTypes || []).find((jobType) => {
+                        return jobType.id === this.props.selectedValue;
+                    }) || {}).job_field_name || undefined}
                 >
                     {children(this.props.jobTypes)}
                 </Select>

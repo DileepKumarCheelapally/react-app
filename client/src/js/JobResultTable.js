@@ -61,7 +61,7 @@ class JobResultTable extends React.Component {
                 </div>
                 <div  id="job-table-footer">
                     <Pagination
-                        Current={this.props.page}
+                        current={this.props.page}
                         total={500}
                         onChange={this.props.pageChangeHandler}
                     />

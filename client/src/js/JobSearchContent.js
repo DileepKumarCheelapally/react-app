@@ -76,7 +76,7 @@ class JobSearchContent extends React.Component {
         filters.page = 1;
 
         callSearchApi(filters)
-            .then(res => this.setState({ page:1, job_type: value, searchResults: res.jobs }))
+            .then(res => this.setState({ page:1, job_type: filters.job_type, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
@@ -102,7 +102,7 @@ class JobSearchContent extends React.Component {
         filters.page = 1;
 
         callSearchApi(filters)
-            .then(res => this.setState({ page:1, job_field: value, searchResults: res.jobs }))
+            .then(res => this.setState({ page:1, job_field: filters.job_field, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
@@ -114,7 +114,7 @@ class JobSearchContent extends React.Component {
         filters.page = 1;
 
         callSearchApi(filters)
-            .then(res => this.setState({ page:1, experience: value, searchResults: res.jobs }))
+            .then(res => this.setState({ page:1, experience: filters.experience, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
@@ -152,7 +152,7 @@ class JobSearchContent extends React.Component {
         filters.page = 1;
 
         callSearchApi(filters)
-            .then(res => this.setState({ page:1, pay_rate: value, searchResults: res.jobs }))
+            .then(res => this.setState({ page:1, pay_rate: filters.pay_rate, searchResults: res.jobs }))
             .catch(err => console.log(err));
     };
 
@@ -161,7 +161,7 @@ class JobSearchContent extends React.Component {
         filters.page = value;
 
         callSearchApi(filters)
-            .then(res => this.setState({page: value, searchResults: res.jobs}))
+            .then(res => this.setState({page: filters.page, searchResults: res.jobs}))
             .catch(err => console.log(err));
     };
 

@@ -31,7 +31,9 @@ class ExperienceLevelFilter extends React.Component {
                     optionFilterProp="children"
                     onChange={this.experienceLevelChanged}
                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                    value = {this.props.selectedValue}
+                    value = {((this.props.experienceLevels || []).find((level) => {
+                        return level.id === this.props.selectedValue;
+                    }) || {}).experience || undefined}
                 >
                     {children(this.props.experienceLevels)}
                 </Select>
