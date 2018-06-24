@@ -13,7 +13,6 @@ export const callSearchApi = async (filters) => {
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
-    console.log(body);
 
     return body;
 };
@@ -33,7 +32,6 @@ export const callJobTypeApi = async () => {
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
-    console.log(body);
 
     return body;
 };
@@ -53,7 +51,6 @@ export const callSkillSetApi = async () => {
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
-    console.log(body);
 
     return body;
 };
@@ -73,7 +70,6 @@ export const callLocationsApi = async () => {
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
-    console.log(body);
 
     return body;
 };
@@ -93,7 +89,6 @@ export const callJobFieldsApi = async () => {
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
-    console.log(body);
 
     return body;
 };
@@ -113,7 +108,6 @@ export const callExperiencesApi = async () => {
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
-    console.log(body);
 
     return body;
 };
@@ -133,7 +127,6 @@ export const callLanguagesApi = async () => {
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
-    console.log(body);
 
     return body;
 };

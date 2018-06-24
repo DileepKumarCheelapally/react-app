@@ -19,7 +19,7 @@ class NavBar extends React.Component {
         return (
             <Row id = "nav-bar">
                 <Col span={4}>
-                    <img style={{maxWidth: '200px'}} src={logo} />
+                    <img id="img-width" src={logo} />
                 </Col>
                 <Col span={16} offset={4}>
                     <NavItems />

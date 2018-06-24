@@ -27,11 +27,10 @@ const description = "lorem ipsum dolor sit amet consectetur adipiscing elit pell
 let ResultsList = (props) => {
    const jobs = props.jobList;
 
-   console.log('jobs',jobs);
     const results = jobs.map((job, index) => {
         return (
             <JobResultRowCard
-                key={index}
+                key={job.id}
                 jobKey={job.id}
                 title={job.title}
                 availability={job.job_type_name}
@@ -40,7 +39,7 @@ let ResultsList = (props) => {
                 company={job.company_name}
                 location={job.location_name}
                 replyRate={job.reply_rate}
-                skills={[]} />
+                skills={job.skills} />
         );
     });
 

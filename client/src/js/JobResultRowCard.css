@@ -1,3 +1,12 @@
 .job-card {
     display: flex;
 }
+
+#text-align {
+    padding-left: 5em;
+    text-align: right;
+}
+
+#text-margin {
+    margin-right: 10px;
+}

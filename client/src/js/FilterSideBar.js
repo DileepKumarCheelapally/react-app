@@ -8,11 +8,12 @@ import PayRateFilter from "./filterSideBarComponents/PayRateFilter";
 import ExperienceLevelFilter from "./filterSideBarComponents/ExperienceLevelFilter";
 import CountriesFilter from "./filterSideBarComponents/CountriesFilter";
 import LanguagesFilter from "./filterSideBarComponents/LanguagesFilter";
+import "./FilterSideBar.css";
 
 class FilterSideBar extends React.Component {
 render() {
     return (
-        <Col style={{display: "flex", flexDirection: "column"}}>
+        <Col className="filter-side-bar">
             <FilterTitle
                 title = "FILTERS"
                 subTitle = "Clear All Filters"

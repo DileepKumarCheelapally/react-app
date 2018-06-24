@@ -118,8 +118,7 @@ module.exports = function () {
 			logger.info('here');
 			var skills_query = knex.from('jobs_skill_set').select()
 				.whereIn('skill_set_id', filters.skills)
-				.groupBy('job_id')
-				.limit(per_page).offset((page - 1) * per_page);
+				.groupBy('job_id');
 			skills_query.then(function (job_skills_res) {
 				var job_ids = [];
 				_.each(job_skills_res, function (job_skills) {
