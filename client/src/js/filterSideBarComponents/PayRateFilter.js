@@ -2,6 +2,7 @@ import React from "react";
 import { Slider, Checkbox } from "antd";
 import FilterTitle from "./FilterTitle";
 import "./filters.css";
+import _ from "lodash";
 
 const marks = {
     10: '10',
@@ -10,6 +11,10 @@ const marks = {
 
 class PayRateFilter extends React.Component {
 
+    onChangeHandler = (value) => {
+        this.props.payRateChangeHandler(value);
+    };
+
     render() {
         return (
             <div className = "filter-margin">
@@ -17,7 +22,7 @@ class PayRateFilter extends React.Component {
                              subTitle = "Clear"
                              clearClickHandler = {this.props.payRateClearedHandler}
                 />
-                <Slider range min={10} max={150} marks={marks} value={this.props.payRate} onChange={value => this.props.payRateChangeHandler(value)} />
+                <Slider range min={10} max={150} marks={marks} value={this.props.payRate} onChange={_.debounce(this.onChangeHandler, 250)} />
             </div>
         );
     }
