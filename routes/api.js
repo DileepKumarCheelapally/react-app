@@ -70,7 +70,6 @@ module.exports = function () {
 			'jobs.experience_id', 'experience_level.experience as experience'
 			);
 
-
 		if (filters.job_type && filters.job_type.length > 0) {
 			query = query.andWhere(function () {
 				this.whereIn('jobs.job_type_id', filters.job_type);
@@ -109,8 +108,6 @@ module.exports = function () {
 			})
 		}
 
-		query = query.limit(per_page).offset((page - 1) * per_page);
-
 		if (filters.skills && filters.skills.length > 0) {
 			var skills_query = knex.from('jobs_skill_set').select()
 				.whereIn('skill_set_id', filters.skills)
@@ -121,18 +118,16 @@ module.exports = function () {
 					job_ids.push(job_skills.job_id);
 				})
 				query = query.whereIn('jobs.id', job_ids);
-				return fetch_jobs_query(query, res);
+				return fetch_jobs_query(query, res, per_page, page);
 			});
 
 		} else {
-
-			return fetch_jobs_query(query, res);
+			return fetch_jobs_query(query, res, per_page, page);
 		}
 
 	});
 
-
-	function fetch_jobs_query(query, res) {
+	function fetch_jobs_query(query, res, per_page, page) {
 
 		query.then(function (results) {
 			var job_ids = _.pluck(results, 'id');
@@ -156,9 +151,13 @@ module.exports = function () {
 					result['skills'] = jobs_skills_map[result.id];
 				});
 
-
+				var count = results.length;
+				filteredResult = results.slice
+					((page - 1) * per_page,
+					((page - 1) * per_page) + per_page);
 				return res.json({
-					'jobs': results
+					'count': count,
+					'jobs': filteredResult
 				});
 			})
 		});

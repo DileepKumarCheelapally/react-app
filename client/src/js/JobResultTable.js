@@ -47,12 +47,15 @@ let ResultsList = (props) => {
 }
 
 class JobResultTable extends React.Component {
+
     render() {
+        const totalPages = this.props.resultCount*2;
+
         return (
             <Col span={18} id="job-table-container">
                 <div id="job-table">
                     <div id="job-table-header">
-                        <h2>Results ({this.props.jobs.length})</h2>
+                        <h2>Results ({this.props.resultCount})</h2>
                         <Dropdown overlay={SortByOptions} trigger={['click']}>
                             <Button>Sort by</Button>
                         </Dropdown>
@@ -62,7 +65,7 @@ class JobResultTable extends React.Component {
                 <div  id="job-table-footer">
                     <Pagination
                         current={this.props.page}
-                        total={500}
+                        total={totalPages%5 === 0 ? totalPages : totalPages + 1 }
                         onChange={this.props.pageChangeHandler}
                     />
                 </div>
