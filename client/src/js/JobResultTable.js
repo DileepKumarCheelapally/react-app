@@ -60,12 +60,15 @@ class JobResultTable extends React.Component {
                             <Button>Sort by</Button>
                         </Dropdown>
                     </div>
-                    <ResultsList jobList={this.props.jobs} />
+                    {this.props.resultCount === 0 ?
+                    <h1>No Results Found.</h1> :
+                        <ResultsList jobList={this.props.jobs} />
+                    }
                 </div>
                 <div  id="job-table-footer">
                     <Pagination
                         current={this.props.page}
-                        total={totalPages%5 === 0 ? totalPages : totalPages + 1 }
+                        total={totalPages === 0 ? 1 : totalPages%5 === 0 ? totalPages : totalPages + 1 }
                         onChange={this.props.pageChangeHandler}
                     />
                 </div>
